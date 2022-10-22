@@ -1,16 +1,9 @@
-import Action from "./Action";
-import Condition from "./Condition";
 import Operation from "./Operation";
+import Rule from "./Rule";
 
 export default class Engine {
-    /**
-     * you can use Engine.Action | Engine.Condition to create Action | Condition instance
-     */
-    static Action = Action;
-    static Condition = Condition;
-
+    static Rule = Rule;
     operation: Operation = new Operation();
-
     constructor() {
 
     }
