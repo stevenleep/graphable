@@ -1,16 +1,16 @@
-export const EQUAL_OPERATION = "equal";
-export const OperationEqualModel = {
+export const GREATER_EQUAL_OPERATION = "greaterEqual";
+export const OperationGreatelEqualModel = {
   type: "number",
-  operation: EQUAL_OPERATION,
+  operation: GREATER_EQUAL_OPERATION,
   description: "Checks if the value is equal to the given number.",
   create(value: number) {
     return {
       type: "operation",
-      name: EQUAL_OPERATION,
+      name: GREATER_EQUAL_OPERATION,
       args: [value],
     };
   },
   execute(value: number, compare: number) {
-    return value === compare;
+    return value >= compare;
   },
 };
