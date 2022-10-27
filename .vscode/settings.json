@@ -1,6 +1,44 @@
 {
+    "editor.formatOnSave": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll": true,
+        "source.fixAll.stylelint": true
+    },
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue"
+    ],
+    "stylelint.enable": true,
+    "stylelint.packageManager": "pnpm",
+    "stylelint.validate": [
+        "css",
+        "scss",
+        "postcss"
+    ],
+    // ref: https://en.wikipedia.org/wiki/Newline#History
+    "files.eol": "\n",
+    // Render vertical rulers after a certain number of monospace characters.
+    // Use multiple values for multiple rulers.
+    // No rulers are drawn if array is empty.
+    "editor.rulers": [
+        100
+    ],
+    "workbench.colorCustomizations": {
+        "editorRuler.foreground": "#9a5151"
+    },
+    "editor.renderWhitespace": "selection",
+    // ref: vscode tips
+    // https://www.youtube.com/watch?v=EA_KnOZI-ck
+    "editor.suggest.preview": true,
     "cSpell.words": [
         "commitlint",
-        "taobao"
-    ]
+        "pnpm",
+        "preinstall",
+        "stylelint",
+        "stylesheet",
+        "taobao",
+    ],
 }

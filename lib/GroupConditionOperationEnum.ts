@@ -6,4 +6,5 @@ export enum GroupConditionOperationEnum {
     // None of the conditions can be met
     NONE = "NONE",
 }
-export type GroupConditionOperationValues = keyof typeof GroupConditionOperationEnum; 
+
+export type GroupConditionOperationValues = keyof typeof GroupConditionOperationEnum;
