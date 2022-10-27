@@ -1,5 +1,5 @@
-import { OperationModel, OPERATION } from "./EqualOperation"
+import { OperationModel, OPERATION } from "./EqualOperation";
 
 export default {
-    [OPERATION]: OperationModel,
-}
+  [OPERATION]: OperationModel,
+};
