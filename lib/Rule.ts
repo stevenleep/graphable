@@ -157,9 +157,9 @@ export default class Rule {
       flatted?: boolean;
       children?: boolean;
     } = {
-        children: false,
-        flatted: false,
-      },
+      children: false,
+      flatted: false,
+    },
   ): RuleMetaItem {
     const { flatted, children } = config;
     const meta: RuleMetaItem = {
