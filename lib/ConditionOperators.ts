@@ -1,4 +1,4 @@
-export enum GroupConditionOperationEnum {
+export enum ConditionOperatorEnum {
   // Only one of the conditions has to be met
   ANY = "ANY",
   // All conditions have to be met
@@ -7,4 +7,4 @@ export enum GroupConditionOperationEnum {
   NONE = "NONE",
 }
 
-export type GroupConditionOperationValues = keyof typeof GroupConditionOperationEnum;
+export type ConditionOperatorValues = keyof typeof ConditionOperatorEnum;

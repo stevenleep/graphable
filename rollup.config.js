@@ -30,7 +30,7 @@ const bundleConfig = {
       exports: "named",
     },
     { sourcemap: sourcemap, format: "esm", file: pkg.exports.import },
-    { sourcemap: sourcemap, format: "cjs", file: pkg.exports.require },
+    { sourcemap: sourcemap, format: "cjs", file: pkg.exports.require, exports: "named" },
   ],
   plugins: [
     commonjs(),

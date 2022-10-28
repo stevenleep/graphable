@@ -1,7 +1,6 @@
-import { Rule } from "./Rule";
+import Engine from "./Engine";
+import Rule from "./Rule";
 
-export interface ActionConstructor {
-  new (rule: Rule): Action;
+export default class Action {
+  constructor(private readonly engine: Engine, private readonly rule: Rule) {}
 }
-
-export class Action {}
