@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        // note: Why recommend the extension?
+        // ref: https://marketplace.visualstudio.com/items?itemName=streetsidesoftware.code-spell-checker
+        // A basic spell checker that works well with code and documents.
+        // The goal of this spell checker is to help catch common spelling errors while keeping the number of false positives low.
+        "streetsidesoftware.code-spell-checker",
+        // ref: https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+    ]
+}

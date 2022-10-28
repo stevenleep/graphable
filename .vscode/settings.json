@@ -20,5 +20,13 @@
   // ref: vscode tips
   // https://www.youtube.com/watch?v=EA_KnOZI-ck
   "editor.suggest.preview": true,
-  "cSpell.words": ["commitlint", "pnpm", "preinstall", "stylelint", "stylesheet", "taobao"]
+  "cSpell.words": [
+    "commitlint",
+    "filesize",
+    "pnpm",
+    "preinstall",
+    "stylelint",
+    "stylesheet",
+    "taobao"
+  ]
 }

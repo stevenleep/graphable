@@ -1,66 +1,59 @@
-import typescript from "rollup-plugin-typescript2";
 import commonjs from "rollup-plugin-commonjs";
+import typescript from "@rollup/plugin-typescript";
+import nodeResolve, { DEFAULTS } from "@rollup/plugin-node-resolve";
 import sourcemaps from "rollup-plugin-sourcemaps";
-import resolve from "rollup-plugin-node-resolve";
 import { terser } from "rollup-plugin-terser";
+import babel from "@rollup/plugin-babel";
+import json from "@rollup/plugin-json";
+import filesize from "rollup-plugin-filesize";
 import dts from "rollup-plugin-dts";
+import pkg from "./package.json" assert { type: "json" };
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
-const babel = require("rollup-plugin-babel");
-// eslint-disable-next-line @typescript-eslint/no-var-requires, no-undef
-const pkg = require("./package.json");
+/**
+ * sourceMap is true by default, but we want to disable it for production builds
+ */
+const sourcemap = true;
 
-const enableSourcemap = true;
-const extensions = [".ts", ".js", ".json", ".node"];
-const buildBaseConfig = {
+/**
+ * We want to use the same extensions as the node-resolve plugin
+ */
+const extensions = [...DEFAULTS.extensions, ".ts", ".tsx"];
+
+const bundleConfig = {
   input: "lib/index.ts",
   output: [
     {
-      file: pkg.main,
+      sourcemap: sourcemap,
+      file: pkg.exports.default,
       format: "umd",
-      sourceMap: enableSourcemap,
       name: "RuleEngine",
+      exports: "named",
     },
-    {
-      file: pkg.module,
-      format: "esm",
-      sourcemap: enableSourcemap,
-    },
-    {
-      file: pkg.commonjs,
-      format: "cjs",
-      sourcemap: enableSourcemap,
-      exports: "auto",
-    },
+    { sourcemap: sourcemap, format: "esm", file: pkg.exports.import },
+    { sourcemap: sourcemap, format: "cjs", file: pkg.exports.require },
+  ],
+  plugins: [
+    commonjs(),
+    typescript({
+      tsconfig: "./tsconfig.json",
+      sourceMap: sourcemap,
+    }),
+    nodeResolve({ extensions, moduleDirectories: ["node_modules"] }),
+    json(),
+    sourcemaps(),
+    filesize(),
+    terser(),
+    babel({ exclude: "node_modules/**", extensions }),
   ],
   watch: {
     include: "lib/**",
   },
-  plugins: [
-    typescript({
-      useTsconfigDeclarationDir: true,
-    }),
-    commonjs(),
-    resolve({ extensions }),
-    sourcemaps(),
-    terser(),
-    babel({
-      exclude: "node_modeles/**",
-      extensions,
-    }),
-  ],
 };
 
-const dtsBaseConfig = {
+const dtsConfig = {
   input: "lib/index.ts",
-  output: [
-    {
-      file: pkg.types,
-      format: "es",
-      exports: "auto",
-    },
-  ],
-  plugins: [dts.default()],
+  output: [{ file: "./dist/index.d.ts", format: "es" }],
+  plugins: [dts()],
 };
 
-export default [buildBaseConfig, dtsBaseConfig];
+export default [bundleConfig, dtsConfig];

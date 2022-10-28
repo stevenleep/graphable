@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+[alias]
+l=log
+rl=reflog
+m=checkout master
+p=push
+pl=pull
+pr="! git push --set-upstream origin $(git rev-parse --abbrev-ref HEAD);"
+al=add --all
+c=commit -m
+s=status
+
+co=checkout
+cb=checkout -b
+reb=rebase -i --autosquash
+
+# git c -> cz
+c=cz
