@@ -202,18 +202,7 @@ export class Rule {
   }
 
   public fromJSON(json: RuleMetaItem) {
-    const rule = new Rule(this.options);
-
-    rule.id = json.id;
-    rule.parentID = json.parentID;
-    rule.groupConditionOperation = json.operation;
-    rule.children = json?.children?.map((child) => this.fromJSON(child)) || [];
-
-    rule.condition = new this.options.Condition!(rule);
-    rule.action = new this.options.Action!(rule);
-
-    flattenedRules.set(rule.id, rule);
-
-    return rule;
+    console.log(json);
+    // TODO
   }
 }
