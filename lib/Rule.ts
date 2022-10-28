@@ -2,7 +2,7 @@ import Condition from "./Condition";
 import Action from "./Action";
 import Engine from "./Engine";
 import { ConditionOperatorEnum, ConditionOperatorValues } from "./ConditionOperators";
-import { genUUID } from "./helpers/genId";
+import { genId } from "./helpers/genId";
 
 export interface RuleOptions {
   operator?: ConditionOperatorValues | ConditionOperatorEnum;
@@ -37,7 +37,7 @@ export default class Rule {
 
   private init() {
     this.conditionOperator = this.options.operator || ConditionOperatorEnum.NONE;
-    this.id = genUUID();
+    this.id = genId();
   }
 
   public addNewRule(
@@ -50,12 +50,12 @@ export default class Rule {
     /**
      * 为了构造树形结构
      */
-    this.children.push(rule);
+    rule.children.push(rule);
 
     /**
      * 为了方便查找 rule
      */
-    this.rulesMap.set(rule.id, rule);
+    rule.rulesMap.set(rule.id, rule);
     flattedRules.set(rule.id!, rule);
 
     return rule;
@@ -65,9 +65,9 @@ export default class Rule {
     const ruleId = typeof ruleOrRuleId === "string" ? ruleOrRuleId : ruleOrRuleId.id;
     const rule = flattedRules.get(ruleId!);
     if (rule) {
-      const index = this.children.indexOf(rule);
+      const index = rule.children.indexOf(rule);
       if (index > -1) {
-        this.children.splice(index, 1);
+        rule.children.splice(index, 1);
       }
       flattedRules.delete(ruleId!);
     }
@@ -92,11 +92,15 @@ export default class Rule {
     }));
   }
 
+  public getRulesWithMeta() {
+    return this.children.map((child) => child.getMeta());
+  }
+
   public getMeta() {
     return {
       id: this.id,
       operator: this.conditionOperator,
-      condition: this.condition?.getMetaWithConditions(),
+      condition: this.condition?.getMetaWithConditions().conditions,
       conditionFields: this.condition?.getFieldsObject(),
     };
   }

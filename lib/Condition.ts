@@ -1,5 +1,5 @@
 import Engine from "./Engine";
-import { genUUID } from "./helpers/genId";
+import { genId } from "./helpers/genId";
 import Rule from "./Rule";
 
 export interface ConditionDescriptor {
@@ -37,7 +37,7 @@ export default class Condition {
   }
 
   private init(descriptor: ConditionDescriptor) {
-    this.id = genUUID();
+    this.id = genId();
 
     this.field = descriptor.field || "";
     this.operator = descriptor.operator || "";
@@ -106,7 +106,6 @@ export default class Condition {
       operator: this.operator,
       value: this.value,
       context: this.context,
-      fields: this.getFieldsObject(),
     };
   }
 
