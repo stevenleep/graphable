@@ -1,12 +1,13 @@
 {
   "name": "js-rule-2",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "type": "module",
   "scripts": {
     "dev": "pnpm clean && rollup -c --environment TARGET:dev && pnpm playground",
     "build": "pnpm clean && pnpm clean:cache && rollup -c",
     "watch": "pnpm clean && rollup -c --watch --environment TARGET:dev",
+    "build:release": "pnpm build && pnpm jest:coverage && pnpm changelog",
     "jest": "jest",
     "jest:watch": "jest --watch",
     "jest:coverage": "jest --coverage",
