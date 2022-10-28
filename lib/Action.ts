@@ -1,7 +1,7 @@
-import Rule from "./Rule";
+import { Rule } from "./Rule";
 
 export interface ActionConstructor {
   new (rule: Rule): Action;
 }
 
-export default class Action {}
+export class Action {}

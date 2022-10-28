@@ -5,7 +5,7 @@ export abstract class OperationDescriptor {
   abstract execute(...args: any[]): void | boolean | Promise<void | boolean>;
 }
 
-export default class Operation {
+export class Operation {
   private _operations: OperationDescriptor[] = [];
 
   public register(operation: OperationDescriptor) {

@@ -1,5 +1,6 @@
-import Action, { ActionConstructor } from "./Action";
-import Condition, {
+import { Action, ActionConstructor } from "./Action";
+import {
+  Condition,
   ConditionConstructor,
   GroupConditionOperationEnum,
   GroupConditionOperationValues,
@@ -29,7 +30,7 @@ export interface RuleMetaItem {
 }
 
 const flattenedRules = new Map<string, Rule>();
-export default class Rule {
+export class Rule {
   private flatten = flattenedRules;
 
   /**

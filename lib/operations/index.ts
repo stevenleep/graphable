@@ -1,5 +1,5 @@
 import { OperationModel, OPERATION } from "./EqualOperation";
 
-export default {
+export const operations = {
   [OPERATION]: OperationModel,
 };
