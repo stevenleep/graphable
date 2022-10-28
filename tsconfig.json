@@ -18,11 +18,12 @@
     "baseUrl": "./",
     "resolveJsonModule": true,
     /* Emit */
-    // "declaration": true,
-    // "declarationMap": true,
+    // 使用rollup-plugin-dts替代typescript的d.ts生成
+    // "declaration": false,
+    // "declarationMap": false,
     // "sourceMap": false,
     // "outDir": "./dist",
-    "removeComments": true,
+    // "removeComments": true,
     "importHelpers": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

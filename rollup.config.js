@@ -34,17 +34,15 @@ const bundleConfig = {
   ],
   plugins: [
     commonjs(),
-    typescript({
-      tsconfig: "./tsconfig.json",
-      sourceMap: sourcemap,
-    }),
+    typescript(),
     nodeResolve({ extensions, moduleDirectories: ["node_modules"] }),
     json(),
     sourcemaps(),
     filesize(),
     terser(),
-    babel({ exclude: "node_modules/**", extensions }),
+    babel({ exclude: "node_modules/**", extensions, babelHelpers: "runtime" }),
   ],
+  external: [...Object.keys(pkg.peerDependencies || {}), /@babel\/runtime/],
   watch: {
     include: "lib/**",
   },
