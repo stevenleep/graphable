@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/branlice/js-rule-2/compare/release-20221028-v1.2.0...release-20221028-v1.3.0) (2022-10-28)
+
+
+### Features
+
+* rule engine infrastructure ([d2084e6](https://github.com/branlice/js-rule-2/commit/d2084e6c490003bcd3902c6ae8519e8ad0eed99a))
+
 ## 1.2.0 (2022-10-28)
 
 
