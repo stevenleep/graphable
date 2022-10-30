@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,7 +8,77 @@
     <title>Playground</title>
 </head>
 <script src="../dist/index.js"></script>
+<script>
+    const engine = new window.RuleEngine.Engine();
+    const rootInstance = engine.rule;
+
+    /**
+     * create a and rule
+    */
+    const andRule = rootInstance.addNewRule({ operator: 'AND' });
+    /** 
+     * add some condition to the and rule
+    */
+    andRule.condition.addCondition({ field: 'name', operator: 'EQUALS', value: 'John' });
+    andRule.condition.addCondition({ field: 'age', operator: 'EQUALS', value: 20 });
+
+    /**
+     * once the rule is created, we can add some action to it
+    */
+    andRule.action.addAction({
+        field: 'name',
+        operator: 'SET',
+        payload: { value: "John Dee" }
+    });
+    andRule.action.addAction({
+        field: 'age',
+        operator: 'SET',
+        payload: {
+            value: (originContext, source) => {
+                return originContext.value + 1;
+            }
+        }
+    });
+
+    /**
+     * create a and rule
+    */
+    const anyRule = rootInstance.addNewRule({ operator: 'ANY' });
+    /** 
+     * add some condition to the and rule
+    */
+    anyRule.condition.addCondition({ field: 'name', operator: 'EQUALS', value: 'John' });
+    anyRule.condition.addCondition({ field: 'age', operator: 'EQUALS', value: 20 });
+    /**
+     * once the rule is created, we can add some action to it
+    */
+    anyRule.action.addAction({
+        field: 'status',
+        operator: 'SET',
+        payload: { value: false }
+    });
+
+    const rules = engine.rule.children;
+    const firstRule = rules[0];
+
+    /**
+     * create a sub rule for the first rule
+    */
+    const subRule = firstRule.addNewRule({ operator: 'AND' });
+    subRule.condition.addCondition({ field: 'A', operator: 'EQUALS', value: 'C' });
+    subRule.action.addAction({
+        field: 'D',
+        operator: 'SET',
+        payload: { value: "Dee" }
+    });
+
+    const ruleJSON = engine.rule.getRulesWithMeta();
+
+    console.log(engine.rule, firstRule, ruleJSON);
+</script>
+
 <body>
     <h1>Playground</h1>
 </body>
+
 </html>
