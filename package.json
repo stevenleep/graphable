@@ -14,7 +14,7 @@
     "clean": "rimraf dist",
     "clean:dev": "rimraf ./playground/*.js ./playground/*.map",
     "clean:cache": "rimraf .rollup.cache",
-    "playground": "live-server --port=9999 --watch=playground,lib,dist --verbose --entry-file=playground/index.html",
+    "playground": "live-server --port=9999 --watch=playground,lib,playground --verbose --entry-file=playground/index.html",
     "prepare": "husky install",
     "preinstall": "only-allow pnpm && sh scripts/preinstall.sh",
     "lint": "eslint --ext .js,.ts,.tsx lib",
