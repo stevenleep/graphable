@@ -50,12 +50,12 @@ export default class Rule {
     /**
      * 为了构造树形结构
      */
-    rule.children.push(rule);
+    this.children.push(rule);
 
     /**
      * 为了方便查找 rule
      */
-    rule.rulesMap.set(rule.id, rule);
+    this.rulesMap.set(rule.id, rule);
     flattedRules.set(rule.id!, rule);
 
     return rule;
@@ -63,14 +63,9 @@ export default class Rule {
 
   public removeRule(ruleOrRuleId: Rule | Rule["id"]) {
     const ruleId = typeof ruleOrRuleId === "string" ? ruleOrRuleId : ruleOrRuleId.id;
-    const rule = flattedRules.get(ruleId!);
-    if (rule) {
-      const index = rule.children.indexOf(rule);
-      if (index > -1) {
-        rule.children.splice(index, 1);
-      }
-      flattedRules.delete(ruleId!);
-    }
+    this.children = this.children.filter((rule) => rule.id !== ruleId);
+    this.rulesMap.delete(ruleId);
+    flattedRules.delete(ruleId!);
   }
 
   public getRule(ruleId: Rule["id"]) {
@@ -92,16 +87,25 @@ export default class Rule {
     }));
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   public getRulesWithMeta() {
     return this.children.map((child) => child.getMeta());
   }
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   public getMeta() {
     return {
       id: this.id,
       operator: this.conditionOperator,
       condition: this.condition?.getMetaWithConditions().conditions,
       conditionFields: this.condition?.getFieldsObject(),
+      action: this.action?.getMetaWithActions().actions,
+      children:
+        Array.isArray(this.children) && this.children.length > 0
+          ? this.getRulesWithMeta.bind(this)()
+          : [],
     };
   }
 
