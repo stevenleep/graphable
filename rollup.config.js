@@ -9,14 +9,15 @@ import filesize from "rollup-plugin-filesize";
 import dts from "rollup-plugin-dts";
 import pkg from "./package.json" assert { type: "json" };
 
-/**
- * sourceMap is true by default, but we want to disable it for production builds
- */
-const sourcemap = true;
 // eslint-disable-next-line no-undef
 const BUILD_TARGET_ENV = process.env.TARGET;
 const isDev = BUILD_TARGET_ENV === "dev";
 const buildOutputDir = isDev ? "./playground/" : "./dist/";
+
+/**
+ * sourceMap is true by default, but we want to disable it for production builds
+ */
+const sourcemap = !isDev;
 
 /**
  * We want to use the same extensions as the node-resolve plugin
