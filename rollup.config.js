@@ -13,6 +13,10 @@ import pkg from "./package.json" assert { type: "json" };
  * sourceMap is true by default, but we want to disable it for production builds
  */
 const sourcemap = true;
+// eslint-disable-next-line no-undef
+const BUILD_TARGET_ENV = process.env.TARGET;
+const isDev = BUILD_TARGET_ENV === "dev";
+const buildOutputDir = isDev ? "./playground/" : "./dist/";
 
 /**
  * We want to use the same extensions as the node-resolve plugin
@@ -24,13 +28,18 @@ const bundleConfig = {
   output: [
     {
       sourcemap: sourcemap,
-      file: pkg.exports.default,
+      file: buildOutputDir + pkg.exports.default,
       format: "umd",
       name: "RuleEngine",
       exports: "named",
     },
-    { sourcemap: sourcemap, format: "esm", file: pkg.exports.import },
-    { sourcemap: sourcemap, format: "cjs", file: pkg.exports.require, exports: "named" },
+    { sourcemap: sourcemap, format: "esm", file: buildOutputDir + pkg.exports.import },
+    {
+      sourcemap: sourcemap,
+      format: "cjs",
+      file: buildOutputDir + pkg.exports.require,
+      exports: "named",
+    },
   ],
   plugins: [
     commonjs(),
@@ -54,4 +63,8 @@ const dtsConfig = {
   plugins: [dts()],
 };
 
-export default [bundleConfig, dtsConfig];
+const configs = [bundleConfig];
+if (!isDev) {
+  configs.push(dtsConfig);
+}
+export default configs;

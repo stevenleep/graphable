@@ -4,7 +4,7 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "dev": "pnpm clean && rollup -c --environment TARGET:dev && pnpm playground",
+    "dev": "pnpm clean:dev && rollup -c --environment TARGET:dev && pnpm playground",
     "build": "pnpm clean && pnpm clean:cache && rollup -c",
     "watch": "pnpm clean && rollup -c --watch --environment TARGET:dev",
     "build:release": "pnpm build && pnpm jest:coverage && pnpm changelog",
@@ -12,6 +12,7 @@
     "jest:watch": "jest --watch",
     "jest:coverage": "jest --coverage",
     "clean": "rimraf dist",
+    "clean:dev": "rimraf ./playground/*.js ./playground/*.map",
     "clean:cache": "rimraf .rollup.cache",
     "playground": "live-server --port=9999 --watch=playground,lib,dist --verbose --entry-file=playground/index.html",
     "prepare": "husky install",
@@ -27,9 +28,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "exports": {
-    "import": "./dist/index.esm.js",
-    "require": "./dist/index.common.js",
-    "default": "./dist/index.js"
+    "import": "index.esm.js",
+    "require": "index.common.js",
+    "default": "index.js"
   },
   "keywords": [
     "js-rule"
