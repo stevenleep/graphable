@@ -1,61 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Playground</title>
-</head>
-<script src="./index.js"></script>
-<script>
+  </head>
+  <link
+    rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/default.min.css"
+  />
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+  <script src="./dist/index.js"></script>
+
+  <body>
+    <div id="app">
+      <h1>Used to display the rendering results of the rules engine</h1>
+      <h2>Rule Engine</h2>
+      <div id="rule-engine">
+        <label id="checkbox">
+          <input type="checkbox" id="rule-engine-input" disabled /> Engine is running
+        </label>
+        <pre>
+                <ul id="content">
+                </ul>
+            </pre>
+        <!-- <pre>
+                <code class="language-json">
+                </code>
+            </pre> -->
+      </div>
+    </div>
+  </body>
+  <script>
+    if (window.RuleEngine && window.RuleEngine.Engine) {
+      const ruleEngineNode = document.getElementById("rule-engine-input");
+      ruleEngineNode.setAttribute("checked", true);
+    }
+
     const engine = new window.RuleEngine.Engine();
+
     const rootInstance = engine.rule;
 
     /**
      * create a and rule
-    */
-    const andRule = rootInstance.addNewRule({ operator: 'AND' });
-    /** 
+     */
+    const andRule = rootInstance.addNewRule({ operator: "AND" });
+    /**
      * add some condition to the and rule
-    */
-    andRule.condition.addCondition({ field: 'name', operator: 'EQUALS', value: 'John' });
-    andRule.condition.addCondition({ field: 'age', operator: 'EQUALS', value: 20 });
+     */
+    andRule.condition.addCondition({ field: "name", operator: "EQUALS", value: "John" });
+    andRule.condition.addCondition({ field: "age", operator: "EQUALS", value: 20 });
 
     /**
      * once the rule is created, we can add some action to it
-    */
+     */
     andRule.action.addAction({
-        field: 'name',
-        operator: 'SET',
-        payload: { value: "John Dee" }
+      field: "name",
+      operator: "SET",
+      payload: { value: "John Dee" },
     });
     andRule.action.addAction({
-        field: 'age',
-        operator: 'SET',
-        payload: {
-            value: (originContext, source) => {
-                return originContext.value + 1;
-            }
-        }
+      field: "age",
+      operator: "SET",
+      payload: {
+        value: (originContext, source) => {
+          return originContext.value + 1;
+        },
+      },
     });
 
     /**
      * create a and rule
-    */
-    const anyRule = rootInstance.addNewRule({ operator: 'ANY' });
-    /** 
+     */
+    const anyRule = rootInstance.addNewRule({ operator: "ANY" });
+    /**
      * add some condition to the and rule
-    */
-    anyRule.condition.addCondition({ field: 'name', operator: 'EQUALS', value: 'John' });
-    anyRule.condition.addCondition({ field: 'age', operator: 'EQUALS', value: 20 });
+     */
+    anyRule.condition.addCondition({ field: "name", operator: "EQUALS", value: "John" });
+    anyRule.condition.addCondition({ field: "age", operator: "EQUALS", value: 20 });
     /**
      * once the rule is created, we can add some action to it
-    */
+     */
     anyRule.action.addAction({
-        field: 'status',
-        operator: 'SET',
-        payload: { value: false }
+      field: "status",
+      operator: "SET",
+      payload: { value: false },
     });
 
     const rules = engine.rule.children;
@@ -63,22 +93,98 @@
 
     /**
      * create a sub rule for the first rule
-    */
-    const subRule = firstRule.addNewRule({ operator: 'AND' });
-    subRule.condition.addCondition({ field: 'A', operator: 'EQUALS', value: 'C' });
+     */
+    const subRule = firstRule.addNewRule({ operator: "AND" });
+    subRule.condition.addCondition({ field: "A", operator: "EQUALS", value: "C" });
     subRule.action.addAction({
-        field: 'D',
-        operator: 'SET',
-        payload: { value: "Dee" }
+      field: "D",
+      operator: "SET",
+      payload: { value: "Dee" },
     });
 
     const ruleJSON = engine.rule.getRulesWithMeta();
 
-    console.log(engine.rule, firstRule, ruleJSON);
-</script>
+    const isBoolean = (value) => typeof value === "boolean";
 
-<body>
-    <h1>Playground</h1>
-</body>
+    const contentNode = document.getElementById("content");
+    ruleJSON.forEach((rule) => {
+      const liNode = document.createElement("li");
 
+      const ruleActions = rule.action || [];
+      const ruleConditions = rule.condition || [];
+
+      const len = ruleConditions.length;
+      const conditionStr = ruleConditions.map((condition, index) => {
+        return (
+          `${condition.field || ""} ${condition.operator} ${condition.value}`
+        );
+      });
+
+      const actionStr = ruleActions.map((action) => {
+        console.log(action);
+        return `${action.field || ""} ${action.operator} ${
+          isBoolean(action.payload.value)
+            ? Boolean(action.payload.value).valueOf().toString()
+            : action.payload.value || ""
+        }`;
+      });
+
+      liNode.setAttribute("class", "task-item");
+
+      liNode.innerHTML = `当条件 <b style='color:red'>${conditionStr}</b> 满足时,
+执行任务: <b style='color:green'>${actionStr || "不做任何操作"}</b>`;
+contentNode.appendChild(liNode); });
+
+    /**
+     * render the rule json
+     */
+    // const codeNode = document.getElementsByClassName("language-json")[0];
+    // codeNode.innerHTML = JSON.stringify(ruleJSON, null, 4);
+    // hljs.highlightAll();
+  </script>
 </html>
+<style>
+  body {
+    width: 100%;
+    height: 100vh;
+    background-color: black;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    font-weight: 400;
+  }
+
+  #app {
+    max-width: 1200px;
+    margin: 0 auto;
+    height: 100%;
+    color: rgb(246, 240, 233);
+    padding: 20px;
+    overflow-y: scroll;
+    /* border: 1px solid red; */
+  }
+
+  ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+
+  h1 {
+    margin-top: 120px;
+  }
+
+  .task-item {
+    padding: 0;
+    margin: 0;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: rgb(248, 242, 242);
+    /* height: 66px;
+    line-height: 66px; */
+    list-style: none;
+    color: #000;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+</style>
